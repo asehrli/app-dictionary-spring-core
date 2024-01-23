@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        .category {
+            transition: .2s;
+        }
+
+        .category:hover {
+            background-color: darkgray;
+        }
+
+        .my-model {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .6);
+            top:0;
+            left: 0;
+        }
+
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="header bg-primary d-flex justify-content-between px-5 align-items-center">
+    <h2 th:text="${#authentication.principal.email}"/>
+    <div style="padding: 2rem; color: lime" class="d-flex gap-2">
+        <span>You are logged in successfully</span>
+        <a href="/auth/logout" class="btn btn-outline-dark">Logout</a>
+    </div>
+</div>
+
+<button class="m-2 mx-4 add-btn btn btn-outline-primary">Add Category</button>
+
+<div class="my-model d-none">
+    <div class="container d-flex justify-content-center">
+        <form action="/category" method="post" class="w-auto p-5 d-grid gap-3">
+            <label>
+                <input class="form-control" type="text" name="name" placeholder="enter category name">
+            </label>
+            <div class="action d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn-cls btn btn-outline-warning">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div th:if="${categories}" class="categories d-grid gap-2 p-5">
+    <div class="shadow w-100 p-3 rounded category d-flex justify-content-between"
+         th:each="category:${categories}">
+
+        <a th:href="'/word/by-category-id/' + ${category.id}"
+           th:text="${category.name}"/>
+
+        <form th:action="'/category/delete/' + ${category.id}" method="post">
+            <button class="btn btn-outline-danger"> Delete</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let addBtn = document.querySelector('.add-btn')
+    let modal = document.querySelector('.my-model')
+    addBtn.addEventListener('click', () => {
+        modal.classList.remove('d-none')
+        modal.classList.add('d-block')
+    })
+
+    let clsBtn = document.querySelector('.btn-cls')
+    clsBtn.addEventListener('click', () => {
+        modal.classList.remove('d-block')
+        modal.classList.add('d-none')
+    })
+</script>
+
+</body>
+</html>

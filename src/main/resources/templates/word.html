@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Category</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+        .my-model {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .6);
+            top:0;
+            left: 0;
+        }
+
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="header bg-primary d-flex justify-content-between px-5 align-items-center">
+    <h2 th:text="${#authentication.principal.email}"/>
+    <div style="padding: 2rem; color: lime" class="d-flex gap-2">
+        <span>You are logged in successfully</span>
+        <a href="/auth/logout" class="btn btn-outline-dark">Logout</a>
+    </div>
+</div>
+
+
+<button class="m-2 mx-4 add-btn btn btn-outline-primary">Add Word</button>
+
+<div class="my-model d-none">
+    <div class="container d-flex justify-content-center">
+        <form th:action="'/word/by-category-id/' + ${categoryId}"
+              enctype="multipart/form-data"
+              method="post"
+              class="w-auto p-5 d-grid gap-3">
+
+            <label class="d-grid gap-3">
+                <input class="form-control" type="text" name="name" placeholder="enter name">
+                <input class="form-control" type="text" name="translate" placeholder="enter it's translate">
+                <input class="form-control" type="file"
+                       name="image" placeholder="choose it's image">
+            </label>
+            <div class="action d-flex justify-content-between">
+                <button type="submit" class="btn btn-success">Save</button>
+                <button type="button" class="btn-cls btn btn-outline-warning">Close</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="words row">
+    <div class="word col-4 p-5" th:each="word:${words}">
+        <div class="word-wrapper shadow bg-light p-4" th:object="${word}">
+            <img class="w-100 rounded" th:src="*{attachment.url}" alt="img">
+            <div class="info">
+                <span class="text-success" th:text="*{name}"/>
+                <br>
+                <span class="text-primary" th:text="*{translate}"/>
+                <p th:text="*{description}"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    let addBtn = document.querySelector('.add-btn')
+    let modal = document.querySelector('.my-model')
+    addBtn.addEventListener('click', () => {
+        modal.classList.remove('d-none')
+        modal.classList.add('d-block')
+    })
+
+    let clsBtn = document.querySelector('.btn-cls')
+    clsBtn.addEventListener('click', () => {
+        modal.classList.remove('d-block')
+        modal.classList.add('d-none')
+    })
+</script>
+
+</body>
+</html>

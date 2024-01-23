@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <style>
+        .logo {
+            background-image: url("/img/pear.jpeg");
+            background: no-repeat revert center;
+            background-size: cover;
+            scale: .6;
+        }
+    </style>
+</head>
+<body>
+<div class="register-box p-5 w-100 bg-secondary" style="height: 100vh">
+    <div class="container bg-white d-flex shadow h-100 p-0 overflow-hidden rounded">
+        <div class="logo w-50">
+        </div>
+        <div class="border content w-50 bg-light p-5 d-flex justify-content-center align-items-center">
+            <form th:object="${dto}" action="/auth/register" method="post" class="w-100 d-grid gap-4">
+                <h1 class="text-center text-success">Register</h1>
+                <label class="w-100" >
+
+                    <i class="text-danger" style="scale: .8" th:if="${#fields.hasErrors('name')}"
+                       th:each="er:${#fields.errors('name')}"
+                       th:text="'*' + ${er}"/>
+                    <input th:field="*{name}" class="form-control" type="text" name="name" placeholder="enter your name">
+                    <br>
+
+
+                    <i class="text-danger" style="scale: .8" th:if="${#fields.hasErrors('email')}"
+                       th:each="er:${#fields.errors('email')}"
+                       th:text="'*' + ${er}"/>
+                    <input th:field="*{email}" class="form-control" type="email" name="email" placeholder="enter your email">
+                    <br>
+
+                    <i class="text-danger" style="scale: .8" th:if="${passErrMess}" th:text="${passErrMess}"/>
+                    <i class="text-danger" style="scale: .8" th:if="${#fields.hasErrors('password')}"
+                       th:each="er:${#fields.errors('password')}"
+                       th:text="'*' + ${er}"/>
+                    <input th:field="*{password}" class="form-control" type="password" name="password" placeholder="enter your password">
+                    <br>
+
+                    <i class="text-danger" style="scale: .8" th:if="${passErrMess}" th:text="${passErrMess}"/>
+                    <i class="text-danger" style="scale: .8" th:if="${#fields.hasErrors('prePassword')}"
+                       th:each="er:${#fields.errors('prePassword')}"
+                       th:text="'*' + ${er}"/>
+                    <input th:field="*{prePassword}" class="form-control" type="password" name="prePassword" placeholder="enter your pre password">
+                </label>
+                <div class="actions d-flex justify-content-between gap-3">
+                    <button type="submit" class="btn btn-primary px-5">Register</button>
+                    <a href="/auth/login">login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style="height: 10rem">A</div>
+
+<script>
+
+</script>
+
+</body>
+</html>
